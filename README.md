@@ -27,3 +27,10 @@ Compile
 ```
 npm run compile
 ```
+
+Launch server
+---
+
+```
+npm start
+```
