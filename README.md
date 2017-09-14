@@ -1,6 +1,8 @@
 YAPH
 ---
 
+[![Build Status](https://travis-ci.org/tinvernizzi/Yaph.svg?branch=master)](https://travis-ci.org/tinvernizzi/Yaph)
+
 YAPH is a web project, currently in progress.
 
 
