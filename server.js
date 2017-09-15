@@ -10,21 +10,21 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
-  hot: true,
-  filename: 'bundle.js',
-  publicPath: '/',
-  stats: {
-    colors: true,
-  },
-  historyApiFallback: true,
+    hot: true,
+    filename: 'bundle.js',
+    publicPath: '/',
+    stats: {
+        colors: true,
+    },
+    historyApiFallback: true,
 }));
 
 app.use(express.static(__dirname + '/www'));
 
 const server = app.listen(3000, function() {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log('Server listening at http://%s:%s', host, port);
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log('Server listening at http://%s:%s', host, port);
 });
 
 
@@ -35,14 +35,16 @@ var sequelize = new Sequelize("_databaseName_", "_username_", "_password_", {
 
 var User = sequelize.define('User',
     {
+        key: {
+            type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV1,
+            primaryKey: true,
+        },
         username: Sequelize.STRING,
         password: Sequelize.STRING
     })
 
 User.sync();
-
-var user = User.create({ username: "admin", password: "bolognese" });
-
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
@@ -67,8 +69,10 @@ passport.use(new FacebookStrategy({
         clientSecret: process.env.FACEBOOK_SECRET,
         callbackURL: "/auth/facebook/callback"
     },
+
     function(accessToken, refreshToken, profile, cb) {
-        console.log('Logging in :' + profile.displayName)
+        User.findOrCreate({ where: { username: profile.displayName, key: profile.id }},);
+        console.log('User : ' + profile.displayName);
         return cb(null, profile);
     })
 );
