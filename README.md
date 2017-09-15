@@ -13,7 +13,10 @@ Tech stack
 * Babel transforms the ES6 JavaScript that we will be writing into ES5 JavaScript that current browsers can understand.
 * Webpack bundles all your JavaScript together into a single file. This includes each JavaScript file that you write as well as your npm packages. A single .js file is easier to deploy and will usually download faster than multiple small files.
 * We'll be using Express as our server.
+* passport to handle authentication
 * react to build the UI
+
+
 
 Setup
 ---
@@ -21,6 +24,8 @@ Setup
 ```
 npm install
 ```
+
+You need to setup the environment variable FACEBOOK_ID and FACEBOOK_SECRET to use Facebook authentication.
 
 Compile
 ---
