@@ -7,6 +7,13 @@ const Sequelize = require('sequelize');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
 const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
@@ -57,7 +64,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    db.User.find({where: {id: id}}).success(function(user){
+    User.find({where: {key: id}}).then(function(user){
         done(null, user);
     }).error(function(err){
         done(err, null);
@@ -87,3 +94,16 @@ app.get('/auth/facebook/callback',
 );
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/logout',
+    function(req, res){
+        req.logout();
+        res.redirect('/');
+    });
+
+app.get('/profile',
+    require('connect-ensure-login').ensureLoggedIn('/notLoggedIn.html'), // Le paramétre de ensureLoggedIn est l'adresse de redirection si l'user n'est pas connecté
+    function(req, res){
+        console.log('Loading profile');
+        res.redirect('/myProfile.html');
+    });
