@@ -24,9 +24,14 @@
     "passport-local": "^1.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-router-dom": "^4.2.2",
     "sequelize": "^4.8.4",
     "sqlite": "^2.8.0",
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.11.0"
+  },
+  "devDependencies": {
+    "history": "^4.7.2",
+    "isomorphic-style-loader": "^4.0.0"
   }
 }
